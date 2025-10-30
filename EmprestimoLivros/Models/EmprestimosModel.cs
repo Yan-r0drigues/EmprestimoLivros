@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmprestimoLivros.Models
 {
     public class EmprestimosModel
     {
+        
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Digite o nome do Recebedor")]
@@ -15,5 +18,7 @@ namespace EmprestimoLivros.Models
         [Required(ErrorMessage = "Digite o nome do Livro")]
         public string LivroEmprestado { get; set; }
         public DateTime dataUltimaAtualizacao { get; set; }
+
+        public LivroModel Livro { get; set; }
     }
 }

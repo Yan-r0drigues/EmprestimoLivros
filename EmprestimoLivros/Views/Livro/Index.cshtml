@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LivroModel>
+@{
+    ViewData["Title"] = "Livros";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="text-3xl font-bold underline">Livros</h1>
+
+        <div>
+            <a class="btn btn-success mx-2" asp-controller="Livro" asp-action="Cadastrar"><i class="bi bi-bookmark-plus mx-2"></i></i>Cadastrar novo livro</a>
+        </div>
+    </div>
+
+    @* @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success text-light" role="alert">
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger text-light" role="alert">
+            @TempData["MensagemErro"]
+        </div>
+    } *@
+
+    <table id="Emprestimos" class="table table-light table-hover mt-5">
+        <thead>
+            <tr>
+                <th scope="col">Título</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Editora</th>
+                <th scope="col">Data de publicação</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null)
+            {
+                @foreach (var livro in Model)
+                {
+                    <tr>
+                        <th scope="row">@livro.Titulo</th>
+                        <td>@livro.Autor</td>
+                        <td>@livro.Editora</td>
+                        <td>@livro.DataPublicacao</td>
+                        <td>
+                            <a asp-controller="Emprestimo" asp-action="Editar" asp-route-id="@livro.Id" class="btn btn-warning mx-2"><i class="bi bi-pencil-square mx-2"></i>Editar</a>
+                            <a asp-controller="Emprestimo" asp-action="Excluir" asp-route-id="@livro.Id" class="btn btn-danger mx-2"><i class="bi bi-trash-fill mx-2"></i>Excluir</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -77,7 +77,7 @@ namespace EmprestimoLivros.Controllers
                 using (MemoryStream ms = new MemoryStream())
                 {
                     workBook.SaveAs(ms);
-                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spredsheetml.sheet", "Emprestimo.xls");
+                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spredsheetml.sheet", "Emprestimo.xlsx");
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace EmprestimoLivros.Controllers
 
                 return RedirectToAction("Index");
             }
-            
+
             TempData["MensagemErro"] = "Algum erro ocorreu ao realizar a edição!";
             return View(emprestimo);
         }

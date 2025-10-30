@@ -10,6 +10,7 @@ namespace EmprestimoLivros.Data
         }
 
         public DbSet<EmprestimosModel> Emprestimos { get; set; }
+        public DbSet<LivroModel> Livros { get; set; }
 
     }
 }
