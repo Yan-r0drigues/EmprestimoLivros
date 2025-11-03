@@ -3,6 +3,7 @@ using EmprestimoLivros.Data;
 using EmprestimoLivros.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace EmprestimoLivros.Controllers
@@ -19,14 +20,23 @@ namespace EmprestimoLivros.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<EmprestimosModel> emprestimos = _db.Emprestimos;
+            IEnumerable<EmprestimosModel> emprestimos = _db.Emprestimos.Include(e=>e.Livro);
             return View(emprestimos);
         }
 
         [HttpGet]
-        public IActionResult Cadastrar()
+        public IActionResult Cadastrar(int livroId)
         {
-            return View();
+            if (livroId <= 0)
+            {
+                return RedirectToAction("Index", "Livro");
+            }
+
+            LivroModel livro = _db.Livros.Find(livroId);
+            EmprestimosModel model = new EmprestimosModel();
+            model.Livro = livro;
+
+            return View(model);
         }
 
         [HttpGet]
@@ -38,7 +48,8 @@ namespace EmprestimoLivros.Controllers
                 return NotFound();
             }
 
-            EmprestimosModel emprestimo = _db.Emprestimos.FirstOrDefault(x => x.Id == id);
+            EmprestimosModel emprestimo = _db.Emprestimos.Include(e => e.Livro)
+                .FirstOrDefault(x => x.Id == id);
 
             if (emprestimo == null)
             {
@@ -98,7 +109,7 @@ namespace EmprestimoLivros.Controllers
             {
                 dados.ForEach(emprestimo =>
                 {
-                    dataTable.Rows.Add(emprestimo.Recebedor, emprestimo.Fornecedor, emprestimo.LivroEmprestado, emprestimo.dataUltimaAtualizacao);
+                    dataTable.Rows.Add(emprestimo.Recebedor, emprestimo.Fornecedor, emprestimo.Livro.Titulo, emprestimo.dataUltimaAtualizacao);
                 });
             }
 
@@ -108,7 +119,7 @@ namespace EmprestimoLivros.Controllers
         [HttpPost]
         public IActionResult Cadastrar(EmprestimosModel emprestimo)
         {
-            if (ModelState.IsValid)
+            if (emprestimo.LivroId > 0 && !string.IsNullOrEmpty(emprestimo.Fornecedor) && !string.IsNullOrEmpty(emprestimo.Recebedor))
             {
                 emprestimo.dataUltimaAtualizacao = DateTime.Now;
 
@@ -127,13 +138,13 @@ namespace EmprestimoLivros.Controllers
         [HttpPost]
         public IActionResult Editar(EmprestimosModel emprestimo)
         {
-            if (ModelState.IsValid)
+
+            if (!string.IsNullOrEmpty(emprestimo.Fornecedor) && !string.IsNullOrEmpty(emprestimo.Fornecedor))
             {
                 var emprestimoDb = _db.Emprestimos.Find(emprestimo.Id);
 
                 emprestimoDb.Fornecedor = emprestimo.Fornecedor;
                 emprestimoDb.Recebedor = emprestimo.Recebedor;
-                emprestimoDb.LivroEmprestado = emprestimo.LivroEmprestado;
 
                 _db.Emprestimos.Update(emprestimoDb);
                 _db.SaveChanges();

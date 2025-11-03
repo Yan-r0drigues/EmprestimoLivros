@@ -30,8 +30,8 @@
 
         <div class="mb-3">
             <label for="Livro" class="form-label text-light">Livro:</label>
-            <input type="text" class="form-control text-dark" asp-for="LivroEmprestado" id="Livro" placeholder="Qual é o livro que está sendo emprestado?">
-            <span class="text-danger" asp-validation-for="LivroEmprestado"></span>
+            <input type="text" class="form-control text-dark" asp-for="Livro.Titulo" id="Livro" placeholder="Qual é o livro que está sendo emprestado?" readonly>
+            <span class="text-danger" asp-validation-for="Livro.Titulo"></span>
         </div>
 
         <div class="d-flex gap-5 mt-5">
