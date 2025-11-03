@@ -19,6 +19,8 @@ namespace EmprestimoLivros.Controllers
             return View(livros);
         }
 
+        // Funções GET e POST de Cadastrar
+
         [HttpGet]
         public IActionResult Cadastrar()
         {
@@ -38,6 +40,8 @@ namespace EmprestimoLivros.Controllers
 
             return View();
         }
+
+        // Funções GET e POST de Editar
 
         [HttpGet]
         public IActionResult Editar(int? id)
@@ -76,6 +80,40 @@ namespace EmprestimoLivros.Controllers
             }
 
             return View(livro);
+        }
+
+        // Funções GET e POST de Excluir
+
+        [HttpGet]
+        public IActionResult Excluir(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            LivroModel livros = db.Livros.FirstOrDefault(x => x.Id == id);
+
+            if (livros == null)
+            {
+                return NotFound();
+            }
+
+            return View(livros);
+        }
+
+        [HttpPost]
+        public IActionResult Excluir(LivroModel livro)
+        {
+            if (livro == null)
+            {
+                return NotFound();
+            }
+
+            db.Livros.Remove(livro);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

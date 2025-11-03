@@ -46,10 +46,10 @@
                         <th scope="row">@livro.Titulo</th>
                         <td>@livro.Autor</td>
                         <td>@livro.Editora</td>
-                        <td>@livro.DataPublicacao</td>
+                        <td>@livro.DataPublicacao.ToShortDateString()</td>
                         <td>
-                            <a asp-controller="Emprestimo" asp-action="Editar" asp-route-id="@livro.Id" class="btn btn-warning mx-2"><i class="bi bi-pencil-square mx-2"></i>Editar</a>
-                            <a asp-controller="Emprestimo" asp-action="Excluir" asp-route-id="@livro.Id" class="btn btn-danger mx-2"><i class="bi bi-trash-fill mx-2"></i>Excluir</a>
+                            <a asp-controller="Livro" asp-action="Editar" asp-route-id="@livro.Id" class="btn btn-warning mx-2"><i class="bi bi-pencil-square mx-2"></i>Editar</a>
+                            <a asp-controller="Livro" asp-action="Excluir" asp-route-id="@livro.Id" class="btn btn-danger mx-2"><i class="bi bi-trash-fill mx-2"></i>Excluir</a>
                         </td>
                     </tr>
                 }
