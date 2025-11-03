@@ -38,5 +38,44 @@ namespace EmprestimoLivros.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Editar(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            LivroModel livro = db.Livros.FirstOrDefault(x => x.Id == id);
+
+            if (livro == null)
+            {
+                return NotFound();
+            }
+
+            return View(livro);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(LivroModel livro)
+        {
+            if (ModelState.IsValid)
+            {
+                var livrodb = db.Livros.Find(livro.Id);
+
+                livrodb.Titulo = livro.Titulo;
+                livrodb.Autor = livro.Autor;
+                livrodb.Editora = livro.Editora;
+                livro.DataPublicacao = livro.DataPublicacao;
+
+                db.Livros.Update(livrodb);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(livro);
+        }
     }
 }
